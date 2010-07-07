@@ -3,12 +3,14 @@
 
 ### Description
 
-Chaocipher is a method of encryption invented by John F. Byrne in 1918
-that was never publically solved. http://en.wikipedia.org/wiki/Chaocipher
+[Chaocipher](http://en.wikipedia.org/wiki/Chaocipher) is a method of
+encryption invented by John F. Byrne in 1918 that was never publicly
+solved.
 
 The algorithm was published in May 2010. These implementations are
-based on the paper by Moshe Rubin:
-http://www.mountainvistasoft.com/chaocipher/ActualChaocipher/Chaocipher-Revealed-Algorithm.pdf 
+based on the
+[paper](http://www.mountainvistasoft.com/chaocipher/ActualChaocipher/Chaocipher-Revealed-Algorithm.pdf)
+by Moshe Rubin:
 
 ### Usage
 
