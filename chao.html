@@ -1,0 +1,65 @@
+<html>
+
+    <head> <title>Javascript Chaocipher</title>
+        <script src="include/util.js"></script>
+        <script src="include/chao.js"></script>
+    </head>
+
+    <body>
+
+        <input type=button value="Encrypt" onclick="encrypt();">
+        <input type=button value="Decrypt" onclick="decrypt();"> <br/>
+        <br/>
+
+        Left: <input id='left' style='width:26em' value='HXUCZVAMDSLKPEFJRIGTWOBNYQ'>
+        <br/>
+        Right: <input id='right' style='width:26em' value='PTLNBQDEOYSFAVZKGJRIHWXUMC'>
+        <br/>
+        <br/>
+
+        Plaintext:<br/>
+        <textarea id="plaintext" style="font-size: 9;" cols=80 rows=10
+            >WELLDONEISBETTERTHANWELLSAID</textarea>
+        <br/>
+        <br/>
+
+        Ciphertext:<br/>
+        <textarea id="ciphertext" style="font-size: 9;" cols=80 rows=10></textarea>
+        <!-- OAHQHCNYNXTSZJRRHJBYHQKSOUJY -->
+        <br/>
+        <br/>
+
+        Messages:<br/>
+        <textarea id="messages" style="font-size: 9;" cols=80 rows=10></textarea>
+    </body>
+
+
+    <script>
+
+        msg_cnt = 0;
+        function msg(str) {
+            var cell = $('messages');
+            console.error(str);
+            cell.innerHTML += msg_cnt + ": " + str + "\n";
+            msg_cnt += 1;
+            cell.scrollTop = cell.scrollHeight;
+        }
+
+        function encrypt() {
+            msg("encrypt clicked");
+        }
+        function decrypt() {
+            msg("decrypt clicked");
+        }
+
+        window.onload = function() {
+            msg("onload");
+            var url = document.location.href;
+            $('left').value = unescape((url.match(/left=([^&#]*)/) || ['',$('left').value])[1]);
+            $('right').value = unescape((url.match(/right=([^&#]*)/) || ['',$('right').value])[1]);
+            $('plaintext').value = unescape((url.match(/plaintext=([^&#]*)/) || ['',$('plaintext').value])[1]);
+            $('ciphertext').value = unescape((url.match(/ciphertext=([^&#]*)/) || ['',$('ciphertext').value])[1]);
+        }
+    </script>
+
+</html>
