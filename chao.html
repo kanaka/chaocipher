@@ -1,30 +1,35 @@
 <html>
-
-    <head> <title>Javascript Chaocipher</title>
-        <script src="include/util.js"></script>
+    <head>
+        <!-- Copyright (C) 2010 Joel Martin         -->
+        <!-- Licensed under LGPL-3. See LICENSE.txt -->
+        <title>Javascript Chaocipher</title>
         <script src="include/chao.js"></script>
     </head>
 
     <body>
-
         <input type=button value="Encrypt" onclick="encrypt();">
         <input type=button value="Decrypt" onclick="decrypt();"> <br/>
         <br/>
 
-        Left: <input id='left' style='width:26em' value='HXUCZVAMDSLKPEFJRIGTWOBNYQ'>
-        <br/>
-        Right: <input id='right' style='width:26em' value='PTLNBQDEOYSFAVZKGJRIHWXUMC'>
-        <br/>
+        <table style="margin: 0; padding: 0;" border=0>
+        <tr>
+            <td>Left:</td>
+            <td><input id='left' style='width:26em' value='HXUCZVAMDSLKPEFJRIGTWOBNYQ'></td>
+        </tr><tr>
+            <td>Right:</td>
+            <td><input id='right' style='width:26em' value='PTLNBQDEOYSFAVZKGJRIHWXUMC'></td>
+        </tr>
+        </table>
         <br/>
 
         Plaintext:<br/>
-        <textarea id="plaintext" style="font-size: 9;" cols=80 rows=10
+        <textarea id="plaintext" cols=80 rows=10
             >WELLDONEISBETTERTHANWELLSAID</textarea>
         <br/>
         <br/>
 
         Ciphertext:<br/>
-        <textarea id="ciphertext" style="font-size: 9;" cols=80 rows=10></textarea>
+        <textarea id="ciphertext" cols=80 rows=10></textarea>
         <!-- OAHQHCNYNXTSZJRRHJBYHQKSOUJY -->
         <br/>
         <br/>
@@ -33,33 +38,86 @@
         <textarea id="messages" style="font-size: 9;" cols=80 rows=10></textarea>
     </body>
 
-
     <script>
+        // Simple DOM selector by ID
+        if (!window.$) {
+            $ = function (id) {
+                if (document.getElementById) {
+                    return document.getElementById(id);
+                } else if (document.all) {
+                    return document.all[id];
+                } else if (document.layers) {
+                    return document.layers[id];
+                }
+                return undefined;
+            };
+        }
 
-        msg_cnt = 0;
-        function msg(str) {
+        msg_cnt = 1;
+        function message(str) {
             var cell = $('messages');
-            console.error(str);
+            console.log(str);
             cell.innerHTML += msg_cnt + ": " + str + "\n";
             msg_cnt += 1;
             cell.scrollTop = cell.scrollHeight;
         }
 
-        function encrypt() {
-            msg("encrypt clicked");
+        function showException (exc) {
+            if (typeof exc.stack !== 'undefined') {
+                message("caught exception: " + exc.stack);
+            } else if (typeof exc.description !== 'undefined') {
+                message("caught exception: " + exc.description);
+            } else {
+                message("caught exception:" + exc);
+            }
+            if (typeof exc.name !== 'undefined') {
+                message(exc.name + ": " + exc.message);
+            } else {
+                message(exc);
+            }
         }
+
+        function encrypt() {
+            var ret;
+            message("Performing Encryption");
+            
+            try {
+                ret = Chaocipher.encrypt($('left').value,
+                                         $('right').value,
+                                         $('plaintext').value);
+            } catch (exc) {
+                showException(exc);
+                return;
+            }
+            $('ciphertext').value = ret;
+        }
+
         function decrypt() {
-            msg("decrypt clicked");
+            var ret;
+            message("Performing Decryption");
+            
+            try {
+                ret = Chaocipher.decrypt($('left').value,
+                                         $('right').value,
+                                         $('ciphertext').value);
+            } catch (exc) {
+                showException(exc);
+                return;
+            }
+            $('plaintext').value = ret;
+        }
+
+        function getQueryDefault(name) {
+            var url = document.location.href;
+            var re = new RegExp(name + "=([^&#]*)");
+            return unescape((url.match(re) || ['',$(name).value])[1]);
         }
 
         window.onload = function() {
-            msg("onload");
-            var url = document.location.href;
-            $('left').value = unescape((url.match(/left=([^&#]*)/) || ['',$('left').value])[1]);
-            $('right').value = unescape((url.match(/right=([^&#]*)/) || ['',$('right').value])[1]);
-            $('plaintext').value = unescape((url.match(/plaintext=([^&#]*)/) || ['',$('plaintext').value])[1]);
-            $('ciphertext').value = unescape((url.match(/ciphertext=([^&#]*)/) || ['',$('ciphertext').value])[1]);
+            $('left').value = getQueryDefault('left');
+            $('right').value = getQueryDefault('right');
+            $('plaintext').value = getQueryDefault('plaintext');
+            $('ciphertext').value = getQueryDefault('ciphertext');
         }
     </script>
-
 </html>

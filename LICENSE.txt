@@ -1,0 +1,3 @@
+Chaocipher is licensed under the LGPL version 3 (see LICENSE.GPL-3 and
+LICENSE.LGPL-3) with the exception of the Array indexOf prototype at
+the end of `include/chao.js` with is MIT licensed.
