@@ -98,22 +98,20 @@ if __name__ == '__main__':
             action="store_const", const="decrypt", dest="mode")
     (options, args) = parser.parse_args()
 
-    print "Using left: %s" % options.left
-    print "Using right: %s" % options.right
+    C = Chaocipher(options.left, options.right)
+
     if sys.stdin.isatty():
+        print "Using left: %s" % options.left
+        print "Using right: %s" % options.right
         if options.mode == "encrypt":
             print "Enter plaintext (Ctrl-D to finish):"
         else:
             print "Enter ciphertext (Ctrl-D to finish):"
+
     text = sys.stdin.read()
 
-    C = Chaocipher(options.left, options.right)
     result = C.crypt(text, options.mode)
-    print "%sed result:\n%s" % (options.mode, result)
-
-    #result = C.crypt("WELLDONEISBETTERTHANWELLSAID", "encrypt")
-    #print "encrypted:", result
-    #C.reset()
-    #result = C.crypt("OAHQHCNYNXTSZJRRHJBYHQKSOUJY", "decrypt")
-    #print "decrypted:", result
-
+    if sys.stdin.isatty():
+        print "%sed result:\n%s" % (options.mode, result)
+    else:
+        print result
