@@ -8,9 +8,9 @@ encryption invented by John F. Byrne in 1918 that was never publicly
 solved.
 
 The algorithm was published in May 2010. These implementations are
-based on the
+based on a
 [paper](http://www.mountainvistasoft.com/chaocipher/ActualChaocipher/Chaocipher-Revealed-Algorithm.pdf)
-by Moshe Rubin:
+by Moshe Rubin.
 
 ### Usage
 
